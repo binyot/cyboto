@@ -4,6 +4,9 @@
 #include<map>
 #include<string>
 #include<memory>
+#include<thread>
+
+#include"consts.h"
 #include"base_component.h"
 
 class BaseComponentsManager
@@ -15,9 +18,10 @@ class BaseComponentsManager
   }
   BaseComponentsManager(BaseComponentsManager const&) = delete;
   void operator=(BaseComponentsManager const&)        = delete;
-
+  static void test_event_loop(const unsigned int update_interval_ms);
  private:
   BaseComponentsManager();
+  static std::thread loop_;
   std::map<std::string,  const std::unique_ptr<BaseComponent>> component_map_;
 };
 
