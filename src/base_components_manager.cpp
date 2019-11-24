@@ -1,6 +1,7 @@
 #include "base_components_manager.h"
 
-BaseComponentsManager::BaseComponentsManager()
-{
+
+/// inialization of all components
+BaseComponentsManager::BaseComponentsManager() {
 
 }
