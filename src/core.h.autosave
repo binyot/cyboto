@@ -1,0 +1,39 @@
+#ifndef CORE_H
+#define CORE_H
+
+#include <string>
+#include <map>
+#include <memory>
+
+#include "consts.h"
+#include "base_component.h"
+#include "emergency_situation_manager.h"
+#include "functions_manager.h"
+
+class Core
+{
+ using ComponentMap = std::map<std::string, std::unique_ptr<BaseComponent>>;
+ using FunctionCall = std::pair<std::string, std::string>; //
+
+ public:
+  static Core& getCore() { //singleton
+    static Core core;
+    return core;
+  }
+  void TestSignal(std::string func_name);
+  /// add foregin component such neural netrk or another module
+  bool AddComponent(BaseComponent component, std::string component_name);
+  Core(Core const&) = delete;
+  void operator=(Core const&) = delete;
+ private:
+  Core();
+  ComponentMap component_map_;
+  EmergencySituationManager& emegrensy_manager() {
+    static_assert("not implemented");
+    return *(new EmergencySituationManager()); }
+  FunctionsManager& functions_manager() {
+    return *static_cast<FunctionsManager*>(component_map_.at(consts::function_manager_name).get()); }
+};
+
+
+#endif // CORE_H

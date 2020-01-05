@@ -1,19 +1,20 @@
-#include "base_components_manager.h"
+#include "physical_components_manager.h"
 #include <ctime>
 #include <iostream>
 #include <chrono>
 
-std::thread BaseComponentsManager::loop_
-    = std::thread(BaseComponentsManager::test_event_loop,
+std::thread PhysicalComponentsManager::loop_
+    = std::thread(PhysicalComponentsManager::test_event_loop,
                   consts::atomic_time_value /*ms*/);
 
-/// inialization of all components
-BaseComponentsManager::BaseComponentsManager() {
+/// inialization of all basic (physical) components
+PhysicalComponentsManager::PhysicalComponentsManager() {
+  
 
 }
 
 
-void BaseComponentsManager::test_event_loop(const unsigned int update_interval_ms) {
+void PhysicalComponentsManager::test_event_loop(const unsigned int update_interval_ms) {
   const auto wait_duration = std::chrono::milliseconds(update_interval_ms);
   while(true) {
     time_t my_time = time(NULL);

@@ -1,10 +1,12 @@
 
 add_executable(cyboto
     main.cpp
-    base_components_manager.cpp
+    physical_components_manager.cpp
     functions_manager.cpp
-    signals_manager.cpp
     emergency_situation_manager.cpp
+    physical_component.cpp
+    function.cpp
+    core.cpp
     base_component.cpp
 )
 
