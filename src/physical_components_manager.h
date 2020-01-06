@@ -20,13 +20,15 @@ class PhysicalComponentsManager : public BaseComponent
     return manager;
   }
   PhysicalComponentsManager(PhysicalComponentsManager const&) = delete;
-  void operator=(PhysicalComponentsManager const&)        = delete;
+  void ProcessActiveFunctions(const unsigned int update_interval_ms);
+  void operator=(PhysicalComponentsManager const&) = delete;
   static void test_event_loop(const unsigned int update_interval_ms);
  private:
   PhysicalComponentsManager();
-  static std::thread loop_;
-  std::map<std::string,  const std::unique_ptr<PhysicalComponent>> component_map_;
-  std::vector<std::shared_ptr<BasicFunction>> active_functions_;
+  static std::thread test_loop_; //TODO delete
+  std::thread call_loop_;
+  std::map<std::string,  PhysicalComponent> component_map_;
+  std::vector<PhysicalFunction> active_functions_;
 };
 
 #endif // BASECOMPONENTMANAGER_H

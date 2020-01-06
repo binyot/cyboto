@@ -13,7 +13,6 @@
 class Core
 {
  using ComponentMap = std::map<std::string, std::unique_ptr<BaseComponent>>;
- using FunctionCall = std::pair<std::string, std::string>; //
 
  public:
   static Core& getCore() { //singleton
@@ -29,10 +28,9 @@ class Core
   Core();
   ComponentMap component_map_;
   EmergencySituationManager& emegrensy_manager() {
-    static_assert("not implemented");
+    assert(false && "not implemented");
     return *(new EmergencySituationManager()); }
   FunctionsManager& functions_manager() {
-    static_assert("not implemented");
     return *static_cast<FunctionsManager*>(component_map_.at(consts::function_manager_name).get()); }
 };
 

@@ -8,5 +8,7 @@ add_executable(cyboto
     function.cpp
     core.cpp
     base_component.cpp
+    parsers.cpp
+    geom.cpp
 )
 

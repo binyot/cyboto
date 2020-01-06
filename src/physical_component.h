@@ -10,25 +10,34 @@ struct Component_info {
 
 };
 
+enum class ComponentType {
+  Basic,
+  ServoMotor
+};
+
 class PhysicalComponent
 {
  public:
-  PhysicalComponent();
+  PhysicalComponent() : type_(ComponentType::Basic) {}
+ protected:
+  ComponentType type_;
 };
 
 class ServoMotor: public PhysicalComponent {
+  using RotationLimits = std::pair<double, double>; // min max
+
  public:
-  ServoMotor(std::string_view name);
+  ServoMotor(std::string_view name, RotationLimits rotation_limits);
   /// duration is const and atomic.
   /// This func must be called periodically
   /// sign depends on direction
   void Rotate(double rotation_speed);
+  void PrintAllInfo();
   const std::string& name() { return component_name_; }
  private:
   const std::string component_name_;
   double current_angle_ = 0;
-  double max_angle_;
-  double min_angle_;
+  RotationLimits rotation_limits_;
 };
 
 
