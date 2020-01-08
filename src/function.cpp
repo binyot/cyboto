@@ -1,6 +1,3 @@
 #include "function.h"
 
-FunctionBasement::FunctionBasement()
-{
-
-}
+// not so much(

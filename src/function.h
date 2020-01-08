@@ -6,15 +6,16 @@
 class FunctionBasement
 {
  public:
-  FunctionBasement();
 };
 
 class PhysicalFunction : public FunctionBasement {
  public:
-  PhysicalFunction(const std::string& target_component_);
-  const std::string& target_component() { return target_component_; }
+  PhysicalFunction(const std::string& target_component)
+    : target_component_(target_component) {}
+  const std::string& target_component() const { return target_component_; }
  private:
-  const std::string target_component_;
+  // const std::string target_component_; //do not works
+  std::string target_component_;
 };
 
 class StandartFunction : public FunctionBasement {

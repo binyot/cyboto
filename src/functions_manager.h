@@ -11,16 +11,13 @@
 #include "function.h"
 #include "parsers.h"
 
-class FunctionsManager : public BaseComponent
+class FunctionsManager : public EventsManager
 {
  public:
   FunctionsManager();
-  bool AddFunction(); //TODO
+  bool AddFunction(); //TODO parse and add new func type
   virtual bool CallFunction(FunctionSignature func_signature) override;
-  void ProcessActiveFunctions(const unsigned int update_interval_ms);
  private:
-  std::thread call_loop_;
-  std::vector<StandartFunction> active_functions_;
   std::map<std::string, StandartFunction> function_map_;
 };
 

@@ -12,7 +12,7 @@
 #include "physical_component.h"
 #include "function.h"
 
-class PhysicalComponentsManager : public BaseComponent
+class PhysicalComponentsManager : public EventsManager
 {
  public:
   static PhysicalComponentsManager& getManager() { //singleton
@@ -20,15 +20,12 @@ class PhysicalComponentsManager : public BaseComponent
     return manager;
   }
   PhysicalComponentsManager(PhysicalComponentsManager const&) = delete;
-  void ProcessActiveFunctions(const unsigned int update_interval_ms);
   void operator=(PhysicalComponentsManager const&) = delete;
   static void test_event_loop(const unsigned int update_interval_ms);
  private:
   PhysicalComponentsManager();
   static std::thread test_loop_; //TODO delete
-  std::thread call_loop_;
   std::map<std::string,  PhysicalComponent> component_map_;
-  std::vector<PhysicalFunction> active_functions_;
 };
 
 #endif // BASECOMPONENTMANAGER_H
