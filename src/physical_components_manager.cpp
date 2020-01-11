@@ -26,3 +26,4 @@ void PhysicalComponentsManager::test_event_loop(const unsigned int update_interv
   }
 }
 
+

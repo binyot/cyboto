@@ -1,9 +1,12 @@
 #ifndef PHYSICALCOMPONENT_H
 #define PHYSICALCOMPONENT_H
 
-#include<string>
+#include <string>
+#include <map>
+#include <functional>
 
-#include"consts.h"
+#include "consts.h"
+#include "parsers.h"
 
 /// we do not take components by gettrs, only their info
 struct Component_info {
@@ -19,7 +22,10 @@ class PhysicalComponent
 {
  public:
   PhysicalComponent() : type_(ComponentType::Basic) {}
+  bool CallFunctiuon(FunctionSignature signature);
  protected:
+  std::map<std::string,
+           std::function<void(UnificatedArguments)>> available_functions_;
   ComponentType type_;
 };
 
@@ -31,7 +37,7 @@ class ServoMotor: public PhysicalComponent {
   /// duration is const and atomic.
   /// This func must be called periodically
   /// sign depends on direction
-  void Rotate(double rotation_speed);
+  void Rotate(UnificatedArguments rotation_speed);
   void PrintAllInfo();
   const std::string& name() { return component_name_; }
  private:

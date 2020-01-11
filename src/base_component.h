@@ -21,7 +21,7 @@ class BaseComponent
   using FunctionCalls = std::vector<FunctionCall>;
   using FunctionsForUser
         = std::map<FunctionSignature::FunctionName,
-                 std::function<FunctionCalls(FunctionSignature::FunctionArgs)>>;
+                 std::function<FunctionCalls(UnificatedArguments)>>;
 
   /// parse signature and call needed function
   virtual bool CallFunction(FunctionSignature func_signature);
