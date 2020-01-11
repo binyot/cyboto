@@ -4,6 +4,7 @@
 Core::Core() {
   BaseComponent::SetCore(this);
   component_map_.emplace(consts::function_manager_name, new FunctionsManager);
+
 }
 
 void Core::TestSignal(std::string func_name) {

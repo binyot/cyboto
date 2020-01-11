@@ -1,7 +1,5 @@
 #include "physical_component.h"
 
-#include <iostream>
-
 #include "geom.h"
 
 bool PhysicalComponent::CallFunctiuon(FunctionSignature signature) {
@@ -18,7 +16,7 @@ ServoMotor::ServoMotor(std::string_view name, RotationLimits rotation_limits)
   assert(rotation_limits.first < rotation_limits.second
          && "second value must be bigger or equal to the first one");
   // to check default position with bounds
-  Rotate(UnificatedArguments("0"));
+  Rotate(UnificatedArguments(("0@" /*@ is arg separator*/)));
   type_ = ComponentType::ServoMotor;
   available_functions_.emplace("Rotate", [=](UnificatedArguments args){this->Rotate(args);});
 }
@@ -39,5 +37,5 @@ void ServoMotor::Rotate(UnificatedArguments rotation_speed) {
 
 void ServoMotor::PrintAllInfo() {
   std::cout << "ServoMotor name: " << component_name_ <<std::endl;
-  std::cout << "current angle: " << current_angle_ <<std::endl;
+  std::cout << "Current angle: " << current_angle_ <<std::endl;
 }

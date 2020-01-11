@@ -22,11 +22,11 @@ class PhysicalComponentsManager : public EventsManager
   PhysicalComponentsManager(PhysicalComponentsManager const&) = delete;
   void operator=(PhysicalComponentsManager const&) = delete;
   static void test_event_loop(const unsigned int update_interval_ms);
-
+  virtual void HandleFunction(std::unique_ptr<FunctionBasement> & function) override;
  private:
   PhysicalComponentsManager();
   static std::thread test_loop_; //TODO delete
-  std::map<std::string,  PhysicalComponent> component_map_;
+  std::map<std::string,  PhysicalComponent*> component_map_;
 };
 
 #endif // BASECOMPONENTMANAGER_H

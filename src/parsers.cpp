@@ -4,7 +4,7 @@ std::string NextRawArgument(std::string& raw_arguments) {
   std::string argument = "";
   const auto separator = raw_arguments.find(consts::argument_separator);
   if (separator == std::string::npos) {
-    assert(false && "no mor arguments left");
+    assert(false && "No more arguments left");
   } else {
     argument = raw_arguments.substr(0, separator);
     raw_arguments = raw_arguments.substr(separator + 1 /*ignore separator*/);

@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <iostream>
 
 #include "consts.h"
 #include "parsers.h"
@@ -23,6 +24,8 @@ class PhysicalComponent
  public:
   PhysicalComponent() : type_(ComponentType::Basic) {}
   bool CallFunctiuon(FunctionSignature signature);
+  virtual void PrintAllInfo() {
+    std::cout << "Base PhysicalComponent info" << std::endl;};
  protected:
   std::map<std::string,
            std::function<void(UnificatedArguments)>> available_functions_;
@@ -38,7 +41,7 @@ class ServoMotor: public PhysicalComponent {
   /// This func must be called periodically
   /// sign depends on direction
   void Rotate(UnificatedArguments rotation_speed);
-  void PrintAllInfo();
+  virtual void PrintAllInfo() override;
   const std::string& name() { return component_name_; }
  private:
   const std::string component_name_;

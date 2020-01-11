@@ -3,6 +3,7 @@
 #include <chrono>
 #include <mutex>
 #include <iterator>
+#include <iostream>
 
 Core* BaseComponent::core_ = nullptr;
 std::mutex active_functions_pool_mutex;
@@ -17,17 +18,23 @@ EventsManager::EventsManager() {
 
 void EventsManager::MoveFunctionsPoolToMainArray() {
   const std::lock_guard<std::mutex> lock(active_functions_pool_mutex);
-  active_functions_.insert(active_functions_.end(),
-                           std::make_move_iterator(active_functions_pool_.begin()),
-                           std::make_move_iterator(active_functions_pool_.end()));
+  if(!active_functions_pool_.empty()) {
+    active_functions_.insert(active_functions_.end(),
+                             std::make_move_iterator(active_functions_pool_.begin()),
+                             std::make_move_iterator(active_functions_pool_.end()));
+    active_functions_pool_.clear();
+  }
 }
 
 void EventsManager::ProcessActiveFunctions() {
   while(true) {
     std::this_thread::sleep_for(std::chrono::milliseconds(consts::atomic_time_value));
     MoveFunctionsPoolToMainArray();
-    for(auto & acative_function : active_functions_)
+    std::cout << "num of active funcs " << active_functions_.size() << "..." << std::endl;
+    for(auto & acative_function : active_functions_) {
+      std::cout << "func handle started" << std::endl;
       HandleFunction(acative_function);
+    }
   }
 }
 

@@ -1,8 +1,9 @@
 #include "functions_manager.h"
+#include "physical_components_manager.h"
 #include "consts.h"
 
 FunctionsManager::FunctionsManager() {
-
+  PhysicalComponentsManager::getManager(); //init
 }
 
 bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
