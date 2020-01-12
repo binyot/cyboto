@@ -13,7 +13,7 @@ PhysicalComponentsManager::PhysicalComponentsManager() {
   AddActiveFunction(new PhysicalFunction("servo_3", FunctionSignature("Rotate@7@"),
                                          consts::atomic_time_value * 3));
   AddActiveFunction(new PhysicalFunction("servo_1", FunctionSignature("Rotate@-1@"),
-                                         consts::atomic_time_value * 10));
+                                         consts::atomic_time_value * 5));
   std::cout << "PhysicalComponentsManager created" << std::endl;
 }
 
@@ -25,6 +25,9 @@ void PhysicalComponentsManager::HandleFunction(std::unique_ptr<FunctionBasement>
   assert(component != component_map_.end() && "component does not exist");
   component->second->CallFunctiuon(physical_function->function_signature());
   component->second->PrintAllInfo();
+  auto events = physical_function->ReceiveEvents();
+  if (!events.empty())
+    std::cout << "events receved, first one: " << events.front() << std::endl;
 }
 
 

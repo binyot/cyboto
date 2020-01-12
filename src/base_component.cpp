@@ -32,20 +32,14 @@ void EventsManager::ProcessActiveFunctions() {
     std::this_thread::sleep_for(std::chrono::milliseconds(consts::atomic_time_value));
     MoveFunctionsPoolToMainArray();
     auto function_handler = [this](auto & function) {
-        HandleFunction(function);
         function->FunctionCalled();
+        HandleFunction(function);
         return function->need_to_delete();
     };
     active_functions_.erase(std::remove_if(active_functions_.begin(),
                                            active_functions_.end(),
                                            function_handler),
                             active_functions_.end());
-//    for(auto & acative_function : active_functions_) {
-//      HandleFunction(acative_function);
-//      acative_function->FunctionCalled();
-//      if (acative_function->need_to_delete())
-//        acative_function = active_functions_.erase(acative_function);
-//    }
   }
 }
 

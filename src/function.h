@@ -8,9 +8,14 @@
 class FunctionBasement
 {
  public:
+  using Event = std::string;
+  using Events = std::vector<Event>;
+
   virtual void FunctionCalled() {};
+  Events ReceiveEvents();
   bool need_to_delete() { return need_to_delete_; }
  protected:
+  Events event_pool_;
   bool need_to_delete_ = false;
 };
 
