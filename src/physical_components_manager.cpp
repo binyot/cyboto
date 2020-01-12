@@ -5,26 +5,15 @@
 #include <chrono>
 #include <mutex>
 
-//std::thread PhysicalComponentsManager::test_loop_
-//    = std::thread(PhysicalComponentsManager::test_event_loop,
-//                  consts::atomic_time_value /*ms*/);
-
-void PhysicalComponentsManager::test_event_loop(const unsigned int update_interval_ms) {
-  const auto wait_duration = std::chrono::milliseconds(update_interval_ms);
-  while(true) {
-    time_t my_time = time(NULL);
-    std::cout << "test_event_loop loop called at " << ctime(&my_time) << std::endl;
-    std::this_thread::sleep_for(wait_duration);
-  }
-}
-
 /// inialization of all basic (physical) components
 PhysicalComponentsManager::PhysicalComponentsManager() {
   component_map_.emplace("servo_1", new ServoMotor("servo_1", {-90, 90}));
   component_map_.emplace("servo_2", new ServoMotor("servo_2", {-90, 180}));
   component_map_.emplace("servo_3", new ServoMotor("servo_3", {0, 270}));
-  std::string comp_name = "servo_2";
-  AddActiveFunction(new PhysicalFunction(comp_name, FunctionSignature("Rotate@7@")));
+  AddActiveFunction(new PhysicalFunction("servo_3", FunctionSignature("Rotate@7@"),
+                                         consts::atomic_time_value * 3));
+  AddActiveFunction(new PhysicalFunction("servo_1", FunctionSignature("Rotate@-1@"),
+                                         consts::atomic_time_value * 10));
   std::cout << "PhysicalComponentsManager created" << std::endl;
 }
 

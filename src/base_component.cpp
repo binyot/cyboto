@@ -4,6 +4,7 @@
 #include <mutex>
 #include <iterator>
 #include <iostream>
+#include <algorithm>
 
 Core* BaseComponent::core_ = nullptr;
 std::mutex active_functions_pool_mutex;
@@ -30,11 +31,21 @@ void EventsManager::ProcessActiveFunctions() {
   while(true) {
     std::this_thread::sleep_for(std::chrono::milliseconds(consts::atomic_time_value));
     MoveFunctionsPoolToMainArray();
-    std::cout << "num of active funcs " << active_functions_.size() << "..." << std::endl;
-    for(auto & acative_function : active_functions_) {
-      std::cout << "func handle started" << std::endl;
-      HandleFunction(acative_function);
-    }
+    auto function_handler = [this](auto & function) {
+        HandleFunction(function);
+        function->FunctionCalled();
+        return function->need_to_delete();
+    };
+    active_functions_.erase(std::remove_if(active_functions_.begin(),
+                                           active_functions_.end(),
+                                           function_handler),
+                            active_functions_.end());
+//    for(auto & acative_function : active_functions_) {
+//      HandleFunction(acative_function);
+//      acative_function->FunctionCalled();
+//      if (acative_function->need_to_delete())
+//        acative_function = active_functions_.erase(acative_function);
+//    }
   }
 }
 

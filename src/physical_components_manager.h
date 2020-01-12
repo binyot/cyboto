@@ -25,7 +25,6 @@ class PhysicalComponentsManager : public EventsManager
   virtual void HandleFunction(std::unique_ptr<FunctionBasement> & function) override;
  private:
   PhysicalComponentsManager();
-  static std::thread test_loop_; //TODO delete
   std::map<std::string,  PhysicalComponent*> component_map_;
 };
 

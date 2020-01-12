@@ -8,17 +8,25 @@
 class FunctionBasement
 {
  public:
+  virtual void FunctionCalled() {};
+  bool need_to_delete() { return need_to_delete_; }
+ protected:
+  bool need_to_delete_ = false;
 };
 
 class PhysicalFunction : public FunctionBasement {
  public:
   PhysicalFunction(const std::string& target_component,
-                   FunctionSignature function_signature)
+                   FunctionSignature function_signature,
+                   int left_lifetime = consts::atomic_time_value)
     : target_component_(target_component),
-      function_signature_(function_signature) {}
+      function_signature_(function_signature),
+      left_lifetime_(left_lifetime) {}
+  virtual void FunctionCalled() override;
   const std::string& target_component() const { return target_component_; }
-  FunctionSignature function_signature() { return function_signature_; }
+  FunctionSignature& function_signature() { return function_signature_; }
  private:
+  int left_lifetime_;
   const std::string target_component_;
   FunctionSignature function_signature_;
 };
