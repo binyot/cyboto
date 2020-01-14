@@ -22,9 +22,9 @@ ServoMotor::ServoMotor(std::string_view name, RotationLimits rotation_limits)
 }
 
 // FIXME test version
-void ServoMotor::Rotate(UnificatedArguments angular_speed) {
-  double angular_speed_d = angular_speed.NextArgument<double>();
-  double new_angle = current_angle_ + angular_speed_d * consts::atomic_time_value;
+void ServoMotor::Rotate(UnificatedArguments args) {
+  double angular_speed = args.NextArgument<double>();
+  double new_angle = current_angle_ + angular_speed * consts::atomic_time_value;
   if (geom::IsInRange(new_angle, rotation_limits_)) {
     current_angle_ = new_angle;
   } else {

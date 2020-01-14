@@ -40,7 +40,7 @@ class ServoMotor: public PhysicalComponent {
   /// duration is const and atomic.
   /// This func must be called periodically
   /// sign depends on direction
-  void Rotate(UnificatedArguments rotation_speed);
+  void Rotate(UnificatedArguments args);
   virtual void PrintAllInfo() override;
   const std::string& name() { return component_name_; }
  private:
