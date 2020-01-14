@@ -1,5 +1,4 @@
 #include "functions_manager.h"
-#include "physical_components_manager.h"
 #include "consts.h"
 
 FunctionsManager::FunctionsManager() {
@@ -12,6 +11,8 @@ bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
     return false;
   else
     // theread safety
-    AddActiveFunction(static_cast<FunctionBasement*>(new StandartFunction(needed_function->second)));
+    AddActiveFunction(static_cast<FunctionBasement*>(
+                        new StandartFunction(needed_function->second)));
+  return true;
 }
 

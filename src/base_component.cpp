@@ -29,6 +29,7 @@ void EventsManager::MoveFunctionsPoolToMainArray() {
 
 void EventsManager::ProcessActiveFunctions() {
   while(true) {
+    // TODO compute spent time and subtruct from atomic_time_value
     std::this_thread::sleep_for(std::chrono::milliseconds(consts::atomic_time_value));
     MoveFunctionsPoolToMainArray();
     auto function_handler = [this](auto & function) {

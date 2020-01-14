@@ -25,7 +25,7 @@ class PhysicalComponentsManager : public EventsManager
   virtual void HandleFunction(std::unique_ptr<FunctionBasement> & function) override;
  private:
   PhysicalComponentsManager();
-  std::map<std::string,  PhysicalComponent*> component_map_;
+  static std::map<std::string,  PhysicalComponent*> component_map_;
 };
 
 #endif // BASECOMPONENTMANAGER_H

@@ -3,7 +3,7 @@
 
 Core::Core() {
   BaseComponent::SetCore(this);
-  component_map_.emplace(consts::function_manager_name, new FunctionsManager);
+  component_map_.emplace(consts::function_manager_name, &FunctionsManager::getManager());
 
 }
 

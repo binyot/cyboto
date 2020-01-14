@@ -8,15 +8,15 @@
 
 class UnificatedArguments {
  public:
-  UnificatedArguments(std::string raw_arguments) : raw_arguments_(raw_arguments) {}
+  UnificatedArguments(std::string raw_arguments)
+    : raw_arguments_(raw_arguments) {}
 // TODO make template!
  template<typename T>
- void NextArgument(T& result);
+ T NextArgument();
+
  std::string raw_arguments() { return raw_arguments_; }
  private:
-  // TODO improve parsing
   // separation by '@' this symbol not allowoded
-  // in string data, input string must end with '@'
   std::string raw_arguments_;
 };
 
@@ -33,9 +33,14 @@ class FunctionSignature {
 };
 
 template<typename T>
- void NextArgument(T& result) {
+ T NextArgument() {
   assert(false && "invalid return type");
 }
-
+template<>
+double UnificatedArguments::NextArgument();
+template<>
+int UnificatedArguments::NextArgument();
+template<>
+std::string UnificatedArguments::NextArgument();
 
 #endif // FUNCTIONSIGNATURE_H

@@ -5,14 +5,16 @@
 #include <chrono>
 #include <mutex>
 
+std::map<std::string,  PhysicalComponent*> PhysicalComponentsManager::component_map_;
+
 /// inialization of all basic (physical) components
 PhysicalComponentsManager::PhysicalComponentsManager() {
   component_map_.emplace("servo_1", new ServoMotor("servo_1", {-90, 90}));
   component_map_.emplace("servo_2", new ServoMotor("servo_2", {-90, 180}));
   component_map_.emplace("servo_3", new ServoMotor("servo_3", {0, 270}));
-  AddActiveFunction(new PhysicalFunction("servo_3", FunctionSignature("Rotate@7@"),
+  AddActiveFunction(new PhysicalFunction("servo_3", FunctionSignature("Rotate@0.07"),
                                          consts::atomic_time_value * 3));
-  AddActiveFunction(new PhysicalFunction("servo_1", FunctionSignature("Rotate@-1@"),
+  AddActiveFunction(new PhysicalFunction("servo_1", FunctionSignature("Rotate@-0.1"),
                                          consts::atomic_time_value * 5));
   std::cout << "PhysicalComponentsManager created" << std::endl;
 }

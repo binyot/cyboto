@@ -11,7 +11,7 @@ class FunctionBasement
   using Event = std::string;
   using Events = std::vector<Event>;
 
-  virtual void FunctionCalled() {};
+  virtual void FunctionCalled() {}
   Events ReceiveEvents();
   bool need_to_delete() { return need_to_delete_; }
  protected:
@@ -31,9 +31,10 @@ class PhysicalFunction : public FunctionBasement {
   const std::string& target_component() const { return target_component_; }
   FunctionSignature& function_signature() { return function_signature_; }
  private:
-  int left_lifetime_;
+
   const std::string target_component_;
   FunctionSignature function_signature_;
+  int left_lifetime_;
 };
 
 class StandartFunction : public FunctionBasement {

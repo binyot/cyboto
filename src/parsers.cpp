@@ -4,7 +4,12 @@ std::string NextRawArgument(std::string& raw_arguments) {
   std::string argument = "";
   const auto separator = raw_arguments.find(consts::argument_separator);
   if (separator == std::string::npos) {
-    assert(false && "No more arguments left");
+    if(raw_arguments.empty())
+      assert(false && "No more arguments left");
+    else {
+      argument = raw_arguments;
+      raw_arguments.clear();
+    }
   } else {
     argument = raw_arguments.substr(0, separator);
     raw_arguments = raw_arguments.substr(separator + 1 /*ignore separator*/);
@@ -14,16 +19,16 @@ std::string NextRawArgument(std::string& raw_arguments) {
 
 // full specialisation in cpp
 template<>
-void UnificatedArguments::NextArgument(int& result) {
-  result = std::stoi(NextRawArgument(raw_arguments_));
+int UnificatedArguments::NextArgument() {
+  return std::stoi(NextRawArgument(raw_arguments_));
 }
 template<>
-void UnificatedArguments::NextArgument(double& result) {
-  result = std::stod(NextRawArgument(raw_arguments_));
+double UnificatedArguments::NextArgument() {
+  return std::stod(NextRawArgument(raw_arguments_));
 }
 template<>
-void UnificatedArguments::NextArgument(std::string& result) {
-  result = NextRawArgument(raw_arguments_);
+std::string UnificatedArguments::NextArgument() {
+  return NextRawArgument(raw_arguments_);
 }
 
 FunctionSignature::FunctionSignature(std::string input)
