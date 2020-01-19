@@ -31,6 +31,6 @@ std::string UnificatedArguments::NextArgument() {
   return NextRawArgument(raw_arguments_);
 }
 
-FunctionSignature::FunctionSignature(std::string input)
+NameAndParams::NameAndParams(std::string input)
   : func_name_(NextRawArgument(input)), func_args_(input) {
 }

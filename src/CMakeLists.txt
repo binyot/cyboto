@@ -10,5 +10,7 @@ add_executable(cyboto
     base_component.cpp
     parsers.cpp
     geom.cpp
+    event_manager.cpp
+    trigger.cpp
 )
 

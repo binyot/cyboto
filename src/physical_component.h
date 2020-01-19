@@ -22,14 +22,19 @@ enum class ComponentType {
 class PhysicalComponent
 {
  public:
-  PhysicalComponent() : type_(ComponentType::Basic) {}
+  PhysicalComponent(std::string_view name)
+    : type_(ComponentType::Basic), component_name_(name) {}
   bool CallFunctiuon(FunctionSignature signature);
   virtual void PrintAllInfo() {
     std::cout << "Base PhysicalComponent info" << std::endl;};
+  const std::string& name() const { return component_name_; };
+  ComponentType type() const { return type_; }
  protected:
   std::map<std::string,
            std::function<void(UnificatedArguments)>> available_functions_;
   ComponentType type_;
+  const std::string component_name_;
+  //TODO static memory map (PhysicalComponents must be hardcoded)
 };
 
 class ServoMotor: public PhysicalComponent {
@@ -42,12 +47,9 @@ class ServoMotor: public PhysicalComponent {
   /// sign depends on direction
   void Rotate(UnificatedArguments args);
   virtual void PrintAllInfo() override;
-  const std::string& name() { return component_name_; }
  private:
-  const std::string component_name_;
   double current_angle_ = 0;
   RotationLimits rotation_limits_;
 };
-
 
 #endif // PHYSICALCOMPONENT_H

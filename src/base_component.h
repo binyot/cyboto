@@ -20,7 +20,7 @@ class BaseComponent
   using FunctionCall = std::pair<std::string, FunctionSignature>; //
   using FunctionCalls = std::vector<FunctionCall>;
   using FunctionsForUser
-        = std::map<FunctionSignature::FunctionName,
+        = std::map<std::string,
                  std::function<FunctionCalls(UnificatedArguments)>>;
 
   /// parse signature and call needed function
@@ -32,9 +32,9 @@ class BaseComponent
   static Core* core_;
 };
 
-class EventsManager : public BaseComponent {
+class BasicEventsManager : public BaseComponent {
  public:
-  EventsManager();
+  BasicEventsManager();
  protected:
   void AddActiveFunction(std::unique_ptr<FunctionBasement> & function);
   void AddActiveFunction(FunctionBasement* function);

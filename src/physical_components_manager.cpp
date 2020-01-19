@@ -29,7 +29,8 @@ void PhysicalComponentsManager::HandleFunction(std::unique_ptr<FunctionBasement>
   component->second->PrintAllInfo();
   auto events = physical_function->ReceiveEvents();
   if (!events.empty())
-    std::cout << "events receved, first one: " << events.front() << std::endl;
+    std::cout << "events receved, first one: "
+              << events.front().GetEventAndSender().first << std::endl;
 }
 
 

@@ -13,11 +13,11 @@ bool BaseComponent::CallFunction(FunctionSignature func_signature) {
   assert(false && "not implemented"); return false;
 }
 
-EventsManager::EventsManager() {
-    call_loop_ = std::thread(&EventsManager::ProcessActiveFunctions, this);
+BasicEventsManager::BasicEventsManager() {
+    call_loop_ = std::thread(&BasicEventsManager::ProcessActiveFunctions, this);
 }
 
-void EventsManager::MoveFunctionsPoolToMainArray() {
+void BasicEventsManager::MoveFunctionsPoolToMainArray() {
   const std::lock_guard<std::mutex> lock(active_functions_pool_mutex);
   if(!active_functions_pool_.empty()) {
     active_functions_.insert(active_functions_.end(),
@@ -27,7 +27,7 @@ void EventsManager::MoveFunctionsPoolToMainArray() {
   }
 }
 
-void EventsManager::ProcessActiveFunctions() {
+void BasicEventsManager::ProcessActiveFunctions() {
   while(true) {
     // TODO compute spent time and subtruct from atomic_time_value
     std::this_thread::sleep_for(std::chrono::milliseconds(consts::atomic_time_value));
@@ -44,16 +44,16 @@ void EventsManager::ProcessActiveFunctions() {
   }
 }
 
-void EventsManager::AddActiveFunction(std::unique_ptr<FunctionBasement> & function) {
+void BasicEventsManager::AddActiveFunction(std::unique_ptr<FunctionBasement> & function) {
   const std::lock_guard<std::mutex> lock(active_functions_pool_mutex);
   active_functions_pool_.emplace_back(std::move(function));
 }
 
-void EventsManager::AddActiveFunction(FunctionBasement* function) {
+void BasicEventsManager::AddActiveFunction(FunctionBasement* function) {
   const std::lock_guard<std::mutex> lock(active_functions_pool_mutex);
   active_functions_pool_.emplace_back(std::unique_ptr<FunctionBasement>(function));
 }
 
-void EventsManager::HandleFunction(std::unique_ptr<FunctionBasement> & function) {
+void BasicEventsManager::HandleFunction(std::unique_ptr<FunctionBasement> & function) {
   assert(false && "This function must be implemented in child class");
 }

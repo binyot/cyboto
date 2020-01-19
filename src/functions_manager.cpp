@@ -6,7 +6,7 @@ FunctionsManager::FunctionsManager() {
 }
 
 bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
-  auto needed_function = function_map_.find(func_signature.FuncName());
+  auto needed_function = function_map_.find(func_signature.FunctionName());
   if (needed_function == function_map_.end())
     return false;
   else

@@ -13,9 +13,11 @@
 #include "parsers.h"
 #include "physical_components_manager.h"
 
-class FunctionsManager : public EventsManager
+class FunctionsManager : public BasicEventsManager
 {
  public:
+  using EventWatchers = std::vector<TriggerFunction>;
+
   static FunctionsManager& getManager() { //singleton
     static FunctionsManager manager;
     return manager;
@@ -30,6 +32,7 @@ class FunctionsManager : public EventsManager
     return PhysicalComponentsManager::getManager(); }
   FunctionsManager();
   std::map<std::string, StandartFunction> function_map_;
+  std::map<EventSignature::EventAndSender, EventWatchers> event_map_;
 };
 
 #endif // FUNCTIONSMANAGER_H

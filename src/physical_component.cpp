@@ -1,10 +1,9 @@
 #include "physical_component.h"
-
 #include "geom.h"
 
 bool PhysicalComponent::CallFunctiuon(FunctionSignature signature) {
   try {
-    available_functions_.at(signature.FuncName())(signature.Args());
+    available_functions_.at(signature.FunctionName())(signature.Args());
   } catch(...){
     return false;
   }
@@ -12,13 +11,14 @@ bool PhysicalComponent::CallFunctiuon(FunctionSignature signature) {
 }
 
 ServoMotor::ServoMotor(std::string_view name, RotationLimits rotation_limits)
-  : component_name_(name), rotation_limits_(rotation_limits) {
+  : PhysicalComponent(name) , rotation_limits_(rotation_limits) {
   assert(rotation_limits.first < rotation_limits.second
          && "second value must be bigger or equal to the first one");
   // to check default position with bounds
   Rotate(UnificatedArguments(("0")));
   type_ = ComponentType::ServoMotor;
-  available_functions_.emplace("Rotate", [=](UnificatedArguments args){this->Rotate(args);});
+  available_functions_.emplace("Rotate", [=](UnificatedArguments args)
+                                            {this->Rotate(args);});
 }
 
 // FIXME test version

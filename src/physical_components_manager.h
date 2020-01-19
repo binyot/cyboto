@@ -12,7 +12,7 @@
 #include "physical_component.h"
 #include "function.h"
 
-class PhysicalComponentsManager : public EventsManager
+class PhysicalComponentsManager : public BasicEventsManager
 {
  public:
   static PhysicalComponentsManager& getManager() { //singleton

@@ -10,30 +10,46 @@ class UnificatedArguments {
  public:
   UnificatedArguments(std::string raw_arguments)
     : raw_arguments_(raw_arguments) {}
-// TODO make template!
  template<typename T>
  T NextArgument();
-
  std::string raw_arguments() { return raw_arguments_; }
  private:
   // separation by '@' this symbol not allowoded
   std::string raw_arguments_;
 };
 
-class FunctionSignature {
+class NameAndParams {
  public:
-  using FunctionName = std::string; //TODO think about implementation
-
-  FunctionSignature(std::string input);
-  FunctionName FuncName() { return func_name_; }
-  UnificatedArguments Args() { return func_args_;}
+  NameAndParams(std::string input);
+ protected:
+  std::string Name() { return func_name_; }
+  UnificatedArguments UnificatedArgs() { return func_args_; }
  private:
-  FunctionName func_name_;
+  std::string func_name_;
   UnificatedArguments func_args_;
 };
 
+class FunctionSignature : public NameAndParams{
+ public:
+  FunctionSignature(std::string input) : NameAndParams(input) {}
+  std::string FunctionName() { return Name(); }
+  UnificatedArguments Args() { return UnificatedArgs(); }
+};
+
+class EventSignature : public NameAndParams{
+ public:
+  using EventAndSender = std::pair<std::string, int>;
+  EventSignature(std::string input, int sender_id = consts::id_not_needed)
+    : NameAndParams(input), sender_id_(sender_id) {}
+  EventAndSender GetEventAndSender() { return {Name(), sender_id_}; }
+  template<typename T>
+  T EventArg() { return UnificatedArgs().NextArgument<T>(); }
+ private:
+  int sender_id_;
+};
+
 template<typename T>
- T NextArgument() {
+T NextArgument() {
   assert(false && "invalid return type");
 }
 template<>

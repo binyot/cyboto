@@ -21,6 +21,8 @@ class FunctionBasement
   Events ReceiveEvents();
   bool need_to_delete() const { return need_to_delete_; }
   FunctionType type() const { return type_; }
+  /// should be called befor adding to pool of active functions
+  virtual bool check_state() { return true; }
  protected:
   static int id_setter_;
   int id_;
