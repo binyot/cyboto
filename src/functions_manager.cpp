@@ -3,6 +3,7 @@
 
 FunctionsManager::FunctionsManager() {
   PhysicalComponentsManager::getManager(); //init
+  FillFunctionMapWithDefaulFunctions();
 }
 
 bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
@@ -16,3 +17,14 @@ bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
   return true;
 }
 
+void FunctionsManager::HandleFunction(std::unique_ptr<
+                                          FunctionBasement>& function) {
+  if (auto phys_func = dynamic_cast<PhysicalFunction*>(function.get())) {
+    physical_manager_().AddActiveFunction(phys_func); // TODO not safe
+  }
+
+}
+
+void FunctionsManager::FillFunctionMapWithDefaulFunctions() {
+
+}

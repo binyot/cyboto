@@ -12,10 +12,12 @@ PhysicalComponentsManager::PhysicalComponentsManager() {
   component_map_.emplace("servo_1", new ServoMotor("servo_1", {-90, 90}));
   component_map_.emplace("servo_2", new ServoMotor("servo_2", {-90, 180}));
   component_map_.emplace("servo_3", new ServoMotor("servo_3", {0, 270}));
-  AddActiveFunction(new PhysicalFunction("servo_3", FunctionSignature("Rotate@0.07"),
-                                         consts::atomic_time_value * 3));
-  AddActiveFunction(new PhysicalFunction("servo_1", FunctionSignature("Rotate@-0.1"),
-                                         consts::atomic_time_value * 5));
+  AddActiveFunction(new PhysicalFunction(UnificatedArguments("servo_3@"
+                                         + std::to_string(consts::atomic_time_value * 5)
+                                         + "@Rotate@0.07")));
+  AddActiveFunction(new PhysicalFunction(UnificatedArguments("servo_1@"
+                                         + std::to_string(consts::atomic_time_value * 2)
+                                         + "@Rotate@-0.1")));
   std::cout << "PhysicalComponentsManager created" << std::endl;
 }
 

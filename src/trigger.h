@@ -8,12 +8,20 @@ class BasicTrigger {
  public:
   BasicTrigger();
   bool Triggered() const { return state_; }
- private:
+ protected:
   bool state_ = false;
   int time_since_triggered_ = 0; // or we need trigger time?
 };
 
-/// counts calls of function, alse used as a timer
+// TODO think about better name
+/// in contrast to other triggers do not catch condition
+/// changes, but asks for needed values itself.
+class StaticTrigger : public BasicTrigger {
+ public:
+  StaticTrigger() : BasicTrigger() { state_ = true; } // TODO implement later
+};
+
+/// counts calls of function or some parameters, also used as a timer
 template<typename T>
 class CountTrigger : public BasicTrigger {
  public:
@@ -22,6 +30,7 @@ class CountTrigger : public BasicTrigger {
   T value_;
 };
 
+/// compares other triggers
 template<typename T>
 class ComparisonTrigger : public BasicTrigger {
  public:
@@ -36,6 +45,7 @@ class ComparisonTrigger : public BasicTrigger {
 
   ComparisonTrigger();
  private:
+  // TODO add max time between calls
   ComparisonType comparison_type_;
   T compared_value_;
 };

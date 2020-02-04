@@ -14,7 +14,7 @@ class UnificatedArguments {
  T NextArgument();
  std::string raw_arguments() { return raw_arguments_; }
  private:
-  // separation by '@' this symbol not allowoded
+  // separation by '@', this symbol not allowoded in any other cases
   std::string raw_arguments_;
 };
 
@@ -47,6 +47,8 @@ class EventSignature : public NameAndParams{
  private:
   int sender_id_;
 };
+
+
 
 template<typename T>
 T NextArgument() {

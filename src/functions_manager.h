@@ -27,10 +27,13 @@ class FunctionsManager : public BasicEventsManager
   bool AddFunction(); //TODO parse and add new func type
   void SentEvents(FunctionBasement::Events events) {} //TODO
   virtual bool CallFunction(FunctionSignature func_signature) override;
+  virtual void HandleFunction(std::unique_ptr<FunctionBasement>& function) override;
  private:
   PhysicalComponentsManager& physical_manager_() {
     return PhysicalComponentsManager::getManager(); }
   FunctionsManager();
+  /// contains list of preseted functions
+  void FillFunctionMapWithDefaulFunctions();
   std::map<std::string, StandartFunction> function_map_;
   std::map<EventSignature::EventAndSender, EventWatchers> event_map_;
 };
