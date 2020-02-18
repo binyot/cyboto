@@ -1,4 +1,4 @@
-#include "function.h"
+#include "base_function.h"
 
 #include <iostream>
 
@@ -27,10 +27,6 @@ void FunctionBasement::FunctionCalled() {
   assert(false && "must be called child function");
 }
 
-void FunctionBasement::Init(UnificatedArguments && /*target_components*/) {
-  assert(false && "must be called child function");
-}
-
 void FunctionBasement::ChildFunctionStatusUpdated(const FunctionBasement * /*child_func*/) {
     assert(false && "must be called child function");
 }
@@ -43,14 +39,6 @@ PhysicalFunction::PhysicalFunction(UnificatedArguments&& target_components,
   , function_signature_(target_components.raw_arguments()) {
   is_initialized_ = true;
 }
-
-void PhysicalFunction::Init(UnificatedArguments&& target_components) {
-  target_component_ = target_components.NextArgument<std::string>();
-  left_lifetime_ = target_components.NextArgument<int>();
-  function_signature_ = target_components.raw_arguments();
-  is_initialized_ = true;
-}
-
 
 void PhysicalFunction::FunctionCalled() {
   left_lifetime_ -= consts::atomic_time_value;
@@ -67,4 +55,13 @@ bool StandartFunction::check_state() {
 
 void StandartFunction::FunctionCalled() {
 
+}
+
+FunctionBasement::Functions StandartFunction::GetBodyFunctions() {
+  FunctionBasement::Functions result;
+  if(status() == FunctionStatus::NotActivated) {
+    status_ = FunctionStatus::Running;
+    result = body_funcs_;
+  }
+  return result;
 }

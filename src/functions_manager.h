@@ -9,9 +9,10 @@
 #include <iostream>
 
 #include "base_component.h"
-#include "function.h"
+#include "base_function.h"
 #include "parsers.h"
 #include "physical_components_manager.h"
+#include "function_factory.h"
 
 class FunctionsManager : public BasicEventsManager
 {
@@ -32,9 +33,7 @@ class FunctionsManager : public BasicEventsManager
   PhysicalComponentsManager& physical_manager_() {
     return PhysicalComponentsManager::getManager(); }
   FunctionsManager();
-  /// contains list of preseted functions
-  void FillFunctionMapWithDefaulFunctions();
-  std::map<std::string, StandartFunction> function_map_;
+  FunctionFactory functions_;
   std::map<EventSignature::EventAndSender, EventWatchers> event_map_;
 };
 

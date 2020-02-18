@@ -10,7 +10,7 @@
 #include "base_component.h"
 #include "consts.h"
 #include "physical_component.h"
-#include "function.h"
+#include "base_function.h"
 
 class PhysicalComponentsManager : public BasicEventsManager
 {

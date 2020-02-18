@@ -16,5 +16,11 @@ namespace consts {
   static constexpr int id_not_needed = std::numeric_limits<int>::max();
 };
 
+namespace phys_comp {
+  static constexpr char servo_m1[] = "servo_1";
+  static constexpr char servo_m2[] = "servo_2";
+  static constexpr char servo_m3[] = "servo_3";
+}
+
 
 #endif // CONSTS_H

@@ -3,6 +3,8 @@
 
 #include <string>
 #include <initializer_list>
+#include <type_traits>
+#include <iostream>
 
 #include "consts.h"
 
@@ -10,6 +12,8 @@ class UnificatedArguments {
  public:
   UnificatedArguments(std::string raw_arguments)
     : raw_arguments_(raw_arguments) {}
+  template<class... Args>
+  UnificatedArguments(const Args... args);
  template<typename T>
  T NextArgument();
  std::string raw_arguments() { return raw_arguments_; }
@@ -60,5 +64,23 @@ template<>
 int UnificatedArguments::NextArgument();
 template<>
 std::string UnificatedArguments::NextArgument();
+
+template<typename T>
+std::string to_string_custom(const T& input) {
+  if constexpr(std::is_arithmetic_v<T>) {
+    return std::to_string(input);
+  } else {
+    return std::string(input);
+  }
+}
+
+template<class... Args>
+UnificatedArguments::UnificatedArguments(const Args... args) {
+//  static_assert(!std::conjunction_v<std::is_same<Args, const char*>...>,
+//                "needed const char*"); // const char != char const //TODO
+  std::string result = ((to_string_custom(args) + consts::argument_separator) + ...);
+  std::cout << result << std::endl;
+  raw_arguments_ = result;
+}
 
 #endif // FUNCTIONSIGNATURE_H

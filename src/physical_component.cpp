@@ -15,7 +15,7 @@ ServoMotor::ServoMotor(std::string_view name, RotationLimits rotation_limits)
   assert(rotation_limits.first < rotation_limits.second
          && "second value must be bigger or equal to the first one");
   // to check default position with bounds
-  Rotate(UnificatedArguments(("0")));
+  Rotate(UnificatedArguments("0"));
   type_ = ComponentType::ServoMotor;
   available_functions_.emplace("Rotate", [=](UnificatedArguments args)
                                             {this->Rotate(args);});
