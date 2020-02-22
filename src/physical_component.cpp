@@ -1,5 +1,5 @@
 #include "physical_component.h"
-#include "geom.h"
+#include "common.h"
 
 bool PhysicalComponent::CallFunctiuon(FunctionSignature signature) {
   try {

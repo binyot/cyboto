@@ -1,5 +1,5 @@
-#ifndef FUNCTIONBASEMENT_H
-#define FUNCTIONBASEMENT_H
+#ifndef BASEFUNCTION_H
+#define BASEFUNCTION_H
 
 #include <string>
 #include <vector>
@@ -7,7 +7,7 @@
 
 #include "parsers.h"
 #include "trigger.h"
-
+#include "common.h"
 enum class FunctionType {
   Base,
   Physical,
@@ -49,9 +49,12 @@ class FunctionBasement
   FunctionType type_;
   int id_;
   static int id_setter_;
+  // if parent exists, it ca not be deleted earlier, than child
   FunctionBasement* parent_ = nullptr;
 };
 
+// can be used as timer by plasing
+// target_component_ = consts::fake_component
 class PhysicalFunction : public FunctionBasement {
  public:
   PhysicalFunction(FunctionBasement* parent = nullptr)
@@ -68,15 +71,22 @@ class PhysicalFunction : public FunctionBasement {
   FunctionSignature function_signature_; // all that left
 };
 
-class FunctionFactory;
-
 class StandartFunction : public FunctionBasement {
-  friend FunctionFactory;
  public:
   virtual bool check_state() override;
   StandartFunction() : FunctionBasement(FunctionType::Standart) {}
   virtual void FunctionCalled() override;
   Functions GetBodyFunctions();
+  template<class FuncType, class... Args>
+  void AddBodyFunction(Args... args) {
+    auto converted_args = ToFuncArgs(args...);
+    body_funcs_.push_back(new FuncType(converted_args));
+  }
+  template<class FuncType, class... Args>
+  void AddTailFunction(Args... args) {
+    auto converted_args = ToFuncArgs(std::forward(args...));
+    body_funcs_.push_back(new FuncType(converted_args));
+  }
  protected:
   /// checks state onse when called
   StaticTrigger static_trigger_;
@@ -85,10 +95,10 @@ class StandartFunction : public FunctionBasement {
 };
 
 
-//sets some triggers
+// sets some triggers
 class TriggerFunction : public FunctionBasement {
  public:
   TriggerFunction() : FunctionBasement(FunctionType::Trigger) {}
 };
 
-#endif // FUNCTIONBASEMENT_H
+#endif // BASEFUNCTION_H

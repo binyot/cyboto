@@ -1,10 +1,22 @@
-#ifndef GEOM_H
-#define GEOM_H
-
+#ifndef COMMON_H
+#define COMMON_H
 
 #include <limits>
 #include <utility>
 #include <assert.h>
+#include <string>
+#include <type_traits>
+#include <iostream>
+
+#include "consts.h"
+
+template<class... Args>
+std::string ToFuncArgs(const Args... args) {
+  std::string result = ((to_string_custom(args) + consts::argument_separator) + ...);
+  std::cout << result << std::endl;
+  result.pop_back(); // remove last @
+  return result;
+}
 
 namespace geom { //TODO bad name
 
@@ -17,4 +29,4 @@ namespace geom { //TODO bad name
   }
 }
 
-#endif // GEOM_H
+#endif // COMMON_H

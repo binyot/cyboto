@@ -12,8 +12,6 @@ class UnificatedArguments {
  public:
   UnificatedArguments(std::string raw_arguments)
     : raw_arguments_(raw_arguments) {}
-  template<class... Args>
-  UnificatedArguments(const Args... args);
  template<typename T>
  T NextArgument();
  std::string raw_arguments() { return raw_arguments_; }
@@ -72,15 +70,6 @@ std::string to_string_custom(const T& input) {
   } else {
     return std::string(input);
   }
-}
-
-template<class... Args>
-UnificatedArguments::UnificatedArguments(const Args... args) {
-//  static_assert(!std::conjunction_v<std::is_same<Args, const char*>...>,
-//                "needed const char*"); // const char != char const //TODO
-  std::string result = ((to_string_custom(args) + consts::argument_separator) + ...);
-  std::cout << result << std::endl;
-  raw_arguments_ = result;
 }
 
 #endif // FUNCTIONSIGNATURE_H

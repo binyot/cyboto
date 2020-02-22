@@ -1,5 +1,5 @@
-#ifndef BASECOMPONENTMANAGER_H
-#define BASECOMPONENTMANAGER_H
+#ifndef PHYSICALCOMPONENTMANAGER_H
+#define PHYSICALCOMPONENTMANAGER_H
 
 #include <map>
 #include <string>
@@ -28,4 +28,4 @@ class PhysicalComponentsManager : public BasicEventsManager
   static std::map<std::string,  PhysicalComponent*> component_map_;
 };
 
-#endif // BASECOMPONENTMANAGER_H
+#endif // PHYSICALCOMPONENTMANAGER_H
