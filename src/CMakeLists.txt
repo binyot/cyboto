@@ -1,3 +1,4 @@
+find_package(Threads)
 
 add_executable(cyboto
     main.cpp
@@ -14,4 +15,6 @@ add_executable(cyboto
     trigger.cpp
     function_factory.cpp
 )
+
+target_link_libraries(cyboto Threads::Threads)
 
