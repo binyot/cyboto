@@ -26,12 +26,17 @@ class Core
   void operator=(Core const&) = delete;
  private:
   Core();
+  [[noreturn]] void HandleManagers();
+  std::thread event_loop_;
   ComponentMap component_map_;
   EmergencySituationManager& emegrensy_manager() {
     assert(false && "not implemented");
     return *(new EmergencySituationManager()); }
   FunctionsManager& functions_manager() {
-    return *static_cast<FunctionsManager*>(component_map_.at(consts::function_manager_name).get()); }
+    return *static_cast<FunctionsManager*>(
+          component_map_.at(consts::function_manager_name).get()); }
+  PhysicalComponentsManager& physical_manager() {
+    return PhysicalComponentsManager::getManager(); }
 };
 
 

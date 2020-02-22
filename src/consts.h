@@ -5,11 +5,12 @@
 #include <string>
 #include <vector>
 #include <assert.h>
+#include <chrono>
 
 namespace consts {
   static constexpr double undefined_double = std::numeric_limits<double>::max();
   /// ms smallest unit of time, each base component func must durate that value.
-  static constexpr unsigned int atomic_time_value = 100;
+  static constexpr int atomic_time_value = 100;
   static constexpr char function_manager_name[] = "function manager";
   static constexpr char fake_component[] = "FAKE_COMP";
   static constexpr char function_finished[] = "fin";

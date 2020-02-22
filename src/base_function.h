@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include <memory>
 
 #include "parsers.h"
@@ -93,6 +94,7 @@ class StandartFunction : public FunctionBasement {
   /// checks state onse when called
   StaticTrigger static_trigger_;
   Functions body_funcs_;
+  // function finished when it's tail finished
   Functions tail_funcs_;
 };
 

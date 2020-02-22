@@ -34,15 +34,13 @@ class BaseComponent
 
 class BasicEventsManager : public BaseComponent {
  public:
-  BasicEventsManager();
   void AddActiveFunction(std::unique_ptr<FunctionBasement>& function);
   void AddActiveFunction(FunctionBasement* function);
+  void ProcessActiveFunctions();
+  void MoveFunctionsPoolToMainArray();
  protected:
   virtual void HandleFunction(std::unique_ptr<FunctionBasement>& function);
  private:
-  void ProcessActiveFunctions();
-  void MoveFunctionsPoolToMainArray();
-  std::thread call_loop_;
   std::vector<std::unique_ptr<FunctionBasement>> active_functions_pool_;
   std::vector<std::unique_ptr<FunctionBasement>> active_functions_;
 };
