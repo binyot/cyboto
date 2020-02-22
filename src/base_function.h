@@ -65,6 +65,8 @@ class PhysicalFunction : public FunctionBasement {
   virtual void FunctionCalled() override final;
   const std::string& target_component() const { return target_component_; }
   FunctionSignature& function_signature() { return function_signature_; }
+  static PhysicalFunction Timer(int life_units,
+                                FunctionBasement* parent = nullptr);
  private:
   std::string target_component_; // first arg
   int left_lifetime_; // second arg

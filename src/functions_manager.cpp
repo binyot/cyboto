@@ -5,7 +5,7 @@
 FunctionsManager::FunctionsManager() {
   PhysicalComponentsManager::getManager(); //init
   //test
-  CallFunction({ToFuncArgs("ExampleRotate3Motors", 1, -0.03, 3, 0.03, 5, 0.02)});
+  CallFunction({ToFuncArgs("ExampleRotate3Motors", 5, -0.03, 30, 0.03, 50, 0.02)});
 }
 
 bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
@@ -29,7 +29,6 @@ void FunctionsManager::HandleFunction(std::unique_ptr<
         else
           AddActiveFunction(child_func);
         }
-      std::cout << "base function body added" << std::endl;
     }
 
   }

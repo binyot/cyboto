@@ -23,12 +23,22 @@ void PhysicalComponentsManager::HandleFunction(std::unique_ptr<FunctionBasement>
     const auto component = component_map_.find(physical_function->target_component());
     assert(component != component_map_.end() && "component does not exist");
     component->second->CallFunctiuon(physical_function->function_signature());
-    component->second->PrintAllInfo();
+    // debug
+    //component->second->PrintAllInfo();
   }
   auto events = physical_function->ReceiveEvents();
-  if (!events.empty())
-    std::cout << "events receved, first one: "
-              << events.front().GetEventAndSender().first << std::endl;
+// miliseconds
+//    std::cout << "events receved at "
+//              << std::chrono::duration_cast<std::chrono::seconds>
+//                     (std::chrono::system_clock::now().time_since_epoch()).count()
+//              << " event type:"
+//              << events.front().GetEventAndSender().first << std::endl;
+  if (!events.empty()) {
+    auto curr_time = std::chrono::system_clock::now();
+    std::time_t end_time = std::chrono::system_clock::to_time_t(curr_time);
+    std::cout << "event '" << events.front().GetEventAndSender().first
+              <<"' receved at " << std::ctime(&end_time) << std::endl;
+  }
 }
 
 

@@ -49,6 +49,13 @@ void PhysicalFunction::FunctionCalled() {
   }
 }
 
+PhysicalFunction PhysicalFunction::Timer(int life_units,
+                                         FunctionBasement* parent) {
+  return PhysicalFunction(ToFuncArgs(consts::fake_component,
+                                     life_units * consts::atomic_time_value),
+                          parent);
+}
+
 bool StandartFunction::check_state() {
   return static_trigger_.Triggered();
 }

@@ -13,8 +13,8 @@
 template<class... Args>
 std::string ToFuncArgs(const Args... args) {
   std::string result = ((to_string_custom(args) + consts::argument_separator) + ...);
-  std::cout << result << std::endl;
   result.pop_back(); // remove last @
+  // std::cout << result << std::endl;
   return result;
 }
 
