@@ -7,6 +7,9 @@ FunctionFactory::FunctionFactory() {
   available_functions_.emplace("ExampleRotate3Motors",
                                [=](UnificatedArguments args)
                                { return this->ExampleRotate3Motors(args); });
+  available_functions_.emplace("ExampleWithTailAndDelay",
+                               [=](UnificatedArguments args)
+                               { return this->ExampleWithTailAndDelay(args); });
 }
 
 StandartFunction* FunctionFactory::GetFunction(FunctionSignature func_signature) {
@@ -35,5 +38,16 @@ StandartFunction* FunctionFactory::ExampleRotate3Motors(UnificatedArguments args
   result->AddBodyFunction<PhysicalFunction>(phys_comp::servo_m3,
                                             consts::atomic_time_value * m3_time,
                                             "Rotate", m3_speed);
+  return result;
+}
+
+StandartFunction* FunctionFactory::ExampleWithTailAndDelay(UnificatedArguments args) {
+  StandartFunction* result = new StandartFunction();
+  int timer_time = args.NextArgument<int>();
+  result->AddBodyFunction<PhysicalFunction>(phys_comp::servo_m1,
+                                            1000 /*1 sec*/,
+                                            "Rotate", 0.1);
+  result->body_funcs_.insert(PhysicalFunction::Timer(timer_time, result));
+  result->tail_funcs_.insert(ExampleRotate3Motors(ToFuncArgs(10, -0.03, 30, 0.03, 50, 0.02)));
   return result;
 }

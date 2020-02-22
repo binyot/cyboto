@@ -5,7 +5,9 @@
 FunctionsManager::FunctionsManager() {
   PhysicalComponentsManager::getManager(); //init
   //test
-  CallFunction({ToFuncArgs("ExampleRotate3Motors", 5, -0.03, 30, 0.03, 50, 0.02)});
+  //CallFunction({ToFuncArgs("ExampleRotate3Motors", 10, -0.03, 30, 0.03, 50, 0.02)});
+  CallFunction({ToFuncArgs("ExampleWithTailAndDelay", 10000 /*10sec*/)});
+  std::cout << "FunctionsManager created" << std::endl;
 }
 
 bool FunctionsManager::CallFunction(FunctionSignature func_signature) {
@@ -22,15 +24,15 @@ void FunctionsManager::HandleFunction(std::unique_ptr<
   } else if (function->type() == FunctionType::Standart) {
     auto std_func = dynamic_cast<StandartFunction*>(function.get());
     // function initialisation
-    if (std_func->status() == FunctionStatus::NotActivated) {
-      for (auto child_func : std_func->GetBodyFunctions()) {
+    if (std_func->status() == FunctionStatus::NotActivated
+        || std_func->status() == FunctionStatus::BodyCompleted) {
+      for (auto child_func : std_func->GetChildFunctions()) {
         if (child_func->type() == FunctionType::Physical)
           physical_manager_().AddActiveFunction(child_func);
         else
           AddActiveFunction(child_func);
-        }
+      }
     }
-
   }
 }
 

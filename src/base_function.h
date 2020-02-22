@@ -18,16 +18,17 @@ enum class FunctionType {
 
 enum class FunctionStatus {
   NotActivated,
-  Running,
+  BodyRunning,
   BodyCompleted,
-  // TODO think if we need state "whait for tail fin"
-  finished // all tail functions of that function recursevely completed
+  TailRunning,
+  TailCompleted,
+  Finished// all tail functions of that function recursevely completed
 };
 
 class FunctionBasement
 {
  public:
-  using Functions = std::vector<FunctionBasement*>;
+  using Functions = std::set<FunctionBasement*>;
 
   using Events = std::vector<EventSignature>;
   FunctionBasement(FunctionType type, FunctionBasement* parent_ = nullptr);
@@ -40,7 +41,7 @@ class FunctionBasement
   FunctionStatus status() const { return status_; }
   bool is_initialized() const {return is_initialized_; }
  protected:
-  virtual void ChildFunctionStatusUpdated(const FunctionBasement *child_func);
+  virtual void ChildFunctionStatusUpdated(FunctionBasement *child_func);
   void DeleteFunction();
   FunctionStatus status_ = FunctionStatus::NotActivated;
   Events event_pool_;
@@ -66,7 +67,7 @@ class PhysicalFunction : public FunctionBasement {
   virtual void FunctionCalled() override final;
   const std::string& target_component() const { return target_component_; }
   FunctionSignature& function_signature() { return function_signature_; }
-  static PhysicalFunction Timer(int life_units,
+  static PhysicalFunction* Timer(int life_tyme_ms,
                                 FunctionBasement* parent = nullptr);
  private:
   std::string target_component_; // first arg
@@ -74,21 +75,28 @@ class PhysicalFunction : public FunctionBasement {
   FunctionSignature function_signature_; // all that left
 };
 
+class FunctionFactory;
+
 class StandartFunction : public FunctionBasement {
+  friend class FunctionFactory;
+
  public:
   virtual bool check_state() override;
   StandartFunction() : FunctionBasement(FunctionType::Standart) {}
+  StandartFunction(UnificatedArguments&& target_components,
+                   FunctionBasement* parent = nullptr);
   virtual void FunctionCalled() override;
-  Functions GetBodyFunctions();
+  virtual void ChildFunctionStatusUpdated(FunctionBasement *child_func) override;
+  Functions& GetChildFunctions();
   template<class FuncType, class... Args>
   void AddBodyFunction(Args... args) {
     auto converted_args = ToFuncArgs(args...);
-    body_funcs_.push_back(new FuncType(converted_args));
+    body_funcs_.insert(new FuncType(converted_args, this));
   }
   template<class FuncType, class... Args>
   void AddTailFunction(Args... args) {
     auto converted_args = ToFuncArgs(std::forward(args...));
-    body_funcs_.push_back(new FuncType(converted_args));
+    body_funcs_.insert(new FuncType(converted_args, this));
   }
  protected:
   /// checks state onse when called
