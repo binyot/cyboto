@@ -52,6 +52,7 @@ Leds::Leds(std::string_view name, const std::string &filename)
 void Leds::Set(UnificatedArguments args) {
   auto bit = args.NextArgument<int>();
   auto val = args.NextArgument<int>();
-  auto old_state = state_;
   state_ &= ~(~val << bit);
+  stream_ << state_;
+  stream_.flush();
 }
