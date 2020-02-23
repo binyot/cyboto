@@ -46,13 +46,13 @@ Leds::Leds(std::string_view name, const std::string &filename)
   type_ = ComponentType::Leds;
   available_functions_.emplace("Set", [=](UnificatedArguments args) {this->Set(args);});
   stream_.open(filename, std::ios_base::in);
-  state_ = 0xFF;
+  state_ = 0x00;
 }
 
 void Leds::Set(UnificatedArguments args) {
   auto bit = args.NextArgument<int>();
   auto val = args.NextArgument<int>();
-  state_ &= ~(~val << bit);
+  state_ &= ~(val << bit);
   stream_ << state_;
   stream_.flush();
 }
