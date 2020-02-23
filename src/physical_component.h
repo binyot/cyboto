@@ -62,7 +62,7 @@ class Leds: public PhysicalComponent
   void Set(UnificatedArguments args);
  private:
   std::ofstream stream_;
-  size_t state_;
+  uint8_t state_;
 };
 
 #endif // PHYSICALCOMPONENT_H

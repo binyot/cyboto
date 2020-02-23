@@ -45,14 +45,17 @@ Leds::Leds(std::string_view name, const std::string &filename)
  : PhysicalComponent(name) {
   type_ = ComponentType::Leds;
   available_functions_.emplace("Set", [=](UnificatedArguments args) {this->Set(args);});
-  stream_.open(filename, std::ios_base::in);
+  stream_.open(filename, std::ios::binary | std::ios::out);
   state_ = 0x00;
+  stream_.write((char*)&state_, sizeof(state_));
+  stream_.flush();
 }
 
 void Leds::Set(UnificatedArguments args) {
   auto bit = args.NextArgument<int>();
   auto val = args.NextArgument<int>();
-  state_ &= ~(val << bit);
-  stream_ << state_;
+  if (val) state_ |= (1 << bit);
+  else     state_ &= ~(1 << bit);
+  stream_.write((char*)&state_, sizeof(state_));
   stream_.flush();
 }
