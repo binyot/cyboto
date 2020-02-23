@@ -6,7 +6,8 @@ FunctionsManager::FunctionsManager() {
   PhysicalComponentsManager::getManager(); //init
   //test
   //CallFunction({ToFuncArgs("ExampleRotate3Motors", 10, -0.03, 30, 0.03, 50, 0.02)});
-  CallFunction({ToFuncArgs("ExampleWithTailAndDelay", 10000 /*10sec*/)});
+  //CallFunction({ToFuncArgs("ExampleWithTailAndDelay", 10000 /*10sec*/)});
+  CallFunction({ToFuncArgs("ExampleLeds", 4, 10000 /*10sec*/)});
   std::cout << "FunctionsManager created" << std::endl;
 }
 

@@ -12,6 +12,7 @@ PhysicalComponentsManager::PhysicalComponentsManager() {
   component_map_.emplace(phys_comp::servo_m1, new ServoMotor(phys_comp::servo_m1, {-90, 90}));
   component_map_.emplace(phys_comp::servo_m2, new ServoMotor(phys_comp::servo_m2, {-90, 180}));
   component_map_.emplace(phys_comp::servo_m3, new ServoMotor(phys_comp::servo_m3, {0, 270}));
+  component_map_.emplace(phys_comp::leds, new Leds(phys_comp::leds));
   std::cout << "PhysicalComponentsManager created" << std::endl;
 }
 

@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "physical_component.h"
 #include "common.h"
 
@@ -37,4 +39,19 @@ void ServoMotor::Rotate(UnificatedArguments args) {
 void ServoMotor::PrintAllInfo() {
   std::cout << "ServoMotor name: " << component_name_ <<std::endl;
   std::cout << "Current angle: " << current_angle_ <<std::endl;
+}
+
+Leds::Leds(std::string_view name, const std::string &filename)
+ : PhysicalComponent(name) {
+  type_ = ComponentType::Leds;
+  available_functions_.emplace("Set", [=](UnificatedArguments args) {this->Set(args);});
+  stream_.open(filename, std::ios_base::in);
+  state_ = 0xFF;
+}
+
+void Leds::Set(UnificatedArguments args) {
+  auto bit = args.NextArgument<int>();
+  auto val = args.NextArgument<int>();
+  auto old_state = state_;
+  state_ &= ~(~val << bit);
 }

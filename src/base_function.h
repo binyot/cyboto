@@ -95,7 +95,7 @@ class StandartFunction : public FunctionBasement {
   }
   template<class FuncType, class... Args>
   void AddTailFunction(Args... args) {
-    auto converted_args = ToFuncArgs(std::forward(args...));
+    auto converted_args = ToFuncArgs(args...);
     body_funcs_.insert(new FuncType(converted_args, this));
   }
  protected:

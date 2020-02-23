@@ -19,6 +19,7 @@ class FunctionFactory {
   ///6 arg: 1motor time, speed, 2motor time, speed, 3motor time, speed
   StandartFunction* ExampleRotate3Motors(UnificatedArguments args);
   StandartFunction* ExampleWithTailAndDelay(UnificatedArguments args);
+  StandartFunction* ExampleLeds(UnificatedArguments args);
   std::map<std::string,
            std::function<StandartFunction*(UnificatedArguments)>> available_functions_;
 };

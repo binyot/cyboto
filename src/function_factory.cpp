@@ -10,6 +10,9 @@ FunctionFactory::FunctionFactory() {
   available_functions_.emplace("ExampleWithTailAndDelay",
                                [=](UnificatedArguments args)
                                { return this->ExampleWithTailAndDelay(args); });
+  available_functions_.emplace("ExampleLeds",
+                               [=](UnificatedArguments args)
+                               { return this->ExampleLeds(args); });
 }
 
 StandartFunction* FunctionFactory::GetFunction(FunctionSignature func_signature) {
@@ -49,5 +52,14 @@ StandartFunction* FunctionFactory::ExampleWithTailAndDelay(UnificatedArguments a
                                             "Rotate", 0.1);
   result->body_funcs_.insert(PhysicalFunction::Timer(timer_time, result));
   result->tail_funcs_.insert(ExampleRotate3Motors(ToFuncArgs(10, -0.03, 30, 0.03, 50, 0.02)));
+  return result;
+}
+
+StandartFunction* FunctionFactory::ExampleLeds(UnificatedArguments args) {
+  auto result = new StandartFunction();
+  auto bit = args.NextArgument<int>();
+  auto time = args.NextArgument<int>();
+  result->AddBodyFunction<PhysicalFunction>(phys_comp::leds, time, "Set", bit, 1);
+  result->AddTailFunction<PhysicalFunction>(phys_comp::leds, 1, "Set", bit, 0);
   return result;
 }

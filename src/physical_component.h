@@ -1,6 +1,8 @@
 #ifndef PHYSICALCOMPONENT_H
 #define PHYSICALCOMPONENT_H
 
+#include <fstream>
+
 #include <string>
 #include <map>
 #include <functional>
@@ -16,7 +18,8 @@ struct Component_info {
 
 enum class ComponentType {
   Basic,
-  ServoMotor
+  ServoMotor,
+  Leds
 };
 
 class PhysicalComponent
@@ -50,6 +53,16 @@ class ServoMotor: public PhysicalComponent {
  private:
   double current_angle_ = 0;
   RotationLimits rotation_limits_;
+};
+
+class Leds: public PhysicalComponent
+{
+ public:
+  Leds(std::string_view name, const std::string &filename="/dev/custom_leds");
+  void Set(UnificatedArguments args);
+ private:
+  std::ofstream stream_;
+  size_t state_;
 };
 
 #endif // PHYSICALCOMPONENT_H
